@@ -9,7 +9,7 @@
 
 - The database auto-seeds on initial startup with realistic HVAC, plumbing, and electrical service jobs, past completion history, active running-late alerts, and pre-configured demo users.
 - A 1-click **Quick Switch** selector is available in the top navigation bar and on the login page to seamlessly test both Dispatcher and Technician roles without manually re-typing credentials.
-- All 15 automated business rule tests can be run instantly via `npm test`.
+- All 17 automated business rule tests can be run instantly via `npm test`.
 
 ## Demo credentials
 

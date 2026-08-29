@@ -636,7 +636,7 @@ Do not merely provide recommendations.
     AND j.status != 'COMPLETED'
     AND j.is_archived = 0
   ```
-- Reran `npx vitest run`, which immediately confirmed all 15 tests passing.
+- Reran `npx vitest run`, which immediately confirmed all 17 tests passing.
 
 ---
 

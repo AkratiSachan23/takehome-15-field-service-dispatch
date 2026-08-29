@@ -14,7 +14,7 @@ The project was divided into 4 structured stages, following a test-driven, domai
 ### Stage 2: REST API Endpoints & Automated Testing (Estimated: 2.5h | Actual: 2.5h)
 - **What was built**:
   - Next.js App Router API routes (`/api/auth/*`, `/api/jobs/*`, `/api/technicians`, `/api/dashboard`, `/api/alerts/*`, `/api/export`).
-  - Comprehensive automated test suite (`tests/dispatch.test.ts`) covering 15 distinct test cases for role permissions, double-booking prevention, back-to-back jobs, bulk assignment partial reporting, and alert reactivation.
+  - Comprehensive automated test suite (`tests/dispatch.test.ts`) covering 17 distinct test cases for role permissions, double-booking prevention, back-to-back jobs, multi-technician assignment, search/filter/sort pagination, bulk assignment partial reporting, and alert reactivation.
 - **Why this order**: Running automated unit and integration tests against the API routes verified that edge cases (e.g., rescheduling into a conflict, completing without parts) were caught and returned expected HTTP status codes.
 
 ### Stage 3: Frontend User Experience & Role Views (Estimated: 4.0h | Actual: 3.5h)

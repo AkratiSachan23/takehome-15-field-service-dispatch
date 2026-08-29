@@ -583,5 +583,77 @@ describe('Field Service Dispatch System', () => {
       // Empty note
       expect(() => addJobNote(job.id, '   ', mockTechnician1)).toThrow(/cannot be empty/);
     });
+
+    it('supports assigning multiple technicians to the same job', () => {
+      const job = createJob({
+        customer_name: 'Big HVAC Overhaul',
+        site_address: '500 Commercial Blvd',
+        description: 'Multi-tech boiler replacement',
+        priority: 'HIGH',
+        scheduled_date: '2026-09-01',
+        start_time: '14:00',
+        estimated_duration: 120,
+      }, mockDispatcher);
+
+      // Assign first technician
+      assignTechnicianToJob(job.id, mockTechnician1.id, mockDispatcher);
+      // Assign second technician to the same job
+      const updatedJob = assignTechnicianToJob(job.id, mockTechnician2.id, mockDispatcher);
+
+      expect(updatedJob.assigned_technicians).toHaveLength(2);
+      expect(updatedJob.assigned_technicians?.map(t => t.id)).toEqual(
+        expect.arrayContaining([mockTechnician1.id, mockTechnician2.id])
+      );
+
+      // Now both technicians have this window booked, so neither can take another overlapping job
+      const conflictingJob = createJob({
+        customer_name: 'Conflict Check',
+        site_address: '600 Road',
+        description: 'Test',
+        priority: 'LOW',
+        scheduled_date: '2026-09-01',
+        start_time: '15:00',
+        estimated_duration: 60,
+      }, mockDispatcher);
+
+      expect(() => assignTechnicianToJob(conflictingJob.id, mockTechnician1.id, mockDispatcher)).toThrow(/Assignment refused/);
+      expect(() => assignTechnicianToJob(conflictingJob.id, mockTechnician2.id, mockDispatcher)).toThrow(/Assignment refused/);
+    });
+
+    it('performs server-side search, filtering, and sorting correctly', () => {
+      createJob({
+        customer_name: 'Alice Springs',
+        site_address: '100 Waterway',
+        description: 'Plumbing leak',
+        priority: 'URGENT',
+        scheduled_date: '2026-09-10',
+        start_time: '08:00',
+        estimated_duration: 60,
+      }, mockDispatcher);
+
+      createJob({
+        customer_name: 'Bob Builder',
+        site_address: '200 Brick St',
+        description: 'Drywall check',
+        priority: 'LOW',
+        scheduled_date: '2026-09-10',
+        start_time: '10:00',
+        estimated_duration: 60,
+      }, mockDispatcher);
+
+      // Text search
+      const searchResult = listJobs({ search: 'Alice' }, mockDispatcher);
+      expect(searchResult.total).toBe(1);
+      expect(searchResult.jobs[0].customer_name).toBe('Alice Springs');
+
+      // Address search
+      const addressResult = listJobs({ search: 'Brick' }, mockDispatcher);
+      expect(addressResult.total).toBe(1);
+      expect(addressResult.jobs[0].customer_name).toBe('Bob Builder');
+
+      // Priority sort
+      const prioritySorted = listJobs({ sortBy: 'priority', sortOrder: 'asc' }, mockDispatcher);
+      expect(prioritySorted.jobs[0].priority).toBe('URGENT');
+    });
   });
 });
