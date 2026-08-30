@@ -7,6 +7,11 @@ This log documents the prompts used during the development of the Field Service 
 ## 1. Project Scaffolding & Relational Schema Design
 
 ### Prompt
+>First I uploaded the project (Readme.md + Other .md files) to ChatGPT and prompted it:
+> *"I have to do this project, and this is how each file should be updated. Act as a senior prompt engineer. Generate a prompt for the antigravity model free version to build this project. Go through the file, understand the project, and build it along with updating the docs files (humanize content to be written in these docs, plagiarism-free)."*
+
+> Then uploaded the generated prompt into the Antigravity IDE LLM model (Gemini 3.7 Flash):
+
 > "I am building a field service dispatch system with Next.js 15, React 19, and better-sqlite3. Design an embedded SQLite schema with tables for `users` (DISPATCHER, TECHNICIAN), `jobs` (customer, address, description, priority, scheduled_date YYYY-MM-DD, start_time HH:MM, estimated_duration minutes, status, is_archived, completion details), `job_assignments` (supporting many-to-many assignments), `parts_used` (part_name, positive quantity, recorded_by), `job_timeline` (immutable append-only event log), `job_notes`, and `dismissed_alerts` (keyed by job ID and schedule window fingerprint). Include foreign keys, check constraints, and performance indexes."
 
 ### What was produced

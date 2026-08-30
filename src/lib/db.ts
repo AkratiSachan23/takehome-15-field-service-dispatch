@@ -9,13 +9,19 @@ export function getDb(): Database.Database {
     return dbInstance;
   }
 
-  const dbPath = process.env.DATABASE_PATH || path.join(process.cwd(), 'data', 'dispatch.db');
+  const dbPath =
+    process.env.DATABASE_PATH ||
+    (process.env.VERCEL ? path.join('/tmp', 'dispatch.db') : path.join(process.cwd(), 'data', 'dispatch.db'));
 
   // Ensure the directory exists if using a file path
   if (dbPath !== ':memory:') {
     const dir = path.dirname(dbPath);
     if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
+      try {
+        fs.mkdirSync(dir, { recursive: true });
+      } catch {
+        // Fallback for restricted environments
+      }
     }
   }
 
