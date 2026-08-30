@@ -3,7 +3,7 @@
 ## Links
 
 - **GitHub repository:** https://github.com/AkratiSachan23/takehome-15-field-service-dispatch
-- **Live application:** http://localhost:3000 (or deployed URL)
+- **Live application:** https://takehome-15-field-service-dispatch.onrender.com/
 
 ## Notes for the reviewer
 
